@@ -1,15 +1,29 @@
 class TreasureHuntController < ApplicationController
+  #TOKEN = ENV['TOKEN']
+
+  #before_action :authenticate, only: [:create]
+
   def create
-    if user_new_location = UserLocation.create(user_location_params)
-      distance_to_treasure = Geocoder::Calculations.distance_between(user_new_location.current_position, TreasureLocation.current_position, units: :meter)
-      render status: 'ok', distance: distance_to_treasure
-      # TODO: send email if distance_to_treasure is less than 5 meters
+    user_new_location = Position.new(params)
+    if user_new_location.save
+      distance_to_treasure_in_meters = Geocoder::Calculations.distance_between(user_new_location.current_position, Treasure.current_position) * 1000
+
+      TreasureFoundMailer.treasure_found(user_new_location.user).deliver if distance_to_treasure_in_meters < 5
+      render json: { status: 'ok', distance: distance_to_treasure_in_meters }
     else
-      render status: 'error', distance: -1, error: 'Something went wrong!'
+      render json: { status: 'error', distance: -1, error: 'Something went wrong!' }
     end
   end
 
+  private
+
   def user_location_params
-    params.require(:current_position, :email)
+    params.require(:current_position)
+  end
+
+  def authenticate
+    authenticate_or_request_with_http_token do |token, options|
+      token == TOKEN
+    end
   end
 end
