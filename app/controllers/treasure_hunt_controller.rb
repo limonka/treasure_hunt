@@ -4,20 +4,13 @@ class TreasureHuntController < ApplicationController
   def create
     user_new_location = Position.new(params)
     if user_new_location.save
-      distance_to_treasure = user_new_location.distance_to_treasure
-
-      TreasureFoundMailer.treasure_found(user_new_location.user).deliver if distance_to_treasure < 5
-      render json: { status: 'ok', distance: distance_to_treasure_in_meters }
+      render json: { status: 'ok', distance: user_new_location.distance_to_treasure }
     else
-      render json: { status: 'error', distance: -1, error: 'Something went wrong!' }
+      render json: { status: 'error', distance: -1, error: user_new_location.errors.inspect }
     end
   end
 
   private
-
-  def user_location_params
-    params.require(:current_position)
-  end
 
   def authenticate
     authenticate_or_request_with_http_token do |token, options|

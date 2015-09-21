@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
     @user = build(:user)
   end
 
-  test "user is valid with valid attributes" do
+  test 'user is valid with valid attributes' do
     assert @user.valid?
   end
 
@@ -20,5 +20,12 @@ class UserTest < ActiveSupport::TestCase
     @user.email = other_user.email
     assert @user.invalid?
     assert @user.errors[:email].present?
+  end
+
+  test 'treasure_hunted return users who found the treasure' do
+    user = create(:position, latitude: Treasure.latitude, longitude: Treasure.longitude).user
+    user2 = create(:position)
+    assert User.treasure_hunted.include?(user)
+    assert !User.treasure_hunted.include?(user2)
   end
 end

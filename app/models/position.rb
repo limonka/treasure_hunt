@@ -7,14 +7,16 @@ class Position
 
   belongs_to :user
 
-  #TODO: add validations
+  after_create :check_if_treasure_found
 
-  def current_position
-    [latitude, longitude]
-  end
+  #TODO: add format validations to lat, long
 
   def current_position=(position)
     self.latitude, self.longitude = position.map(&:to_f)
+  end
+
+  def current_position
+    [latitude, longitude]
   end
 
   def email=(email)
@@ -23,5 +25,12 @@ class Position
 
   def distance_to_treasure
     Geocoder::Calculations.distance_between(current_position, Treasure.current_position) * 1000
+  end
+
+  def check_if_treasure_found
+    if distance_to_treasure < 5
+      user.update_attribute(:found_treasure, true)
+      TreasureFoundMailer.treasure_found(user).deliver
+    end
   end
 end
