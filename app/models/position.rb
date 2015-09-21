@@ -20,4 +20,8 @@ class Position
   def email=(email)
     self.user = User.first(email: email) || User.create(email: email)
   end
+
+  def distance_to_treasure
+    Geocoder::Calculations.distance_between(current_position, Treasure.current_position) * 1000
+  end
 end

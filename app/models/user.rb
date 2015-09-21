@@ -1,7 +1,7 @@
 class User
   include MongoMapper::Document
 
-  key :email, String, required: true
+  key :email, String, required: true, unique: true
   key :found_treasure, Boolean, default: false, required: true
   timestamps!
 
