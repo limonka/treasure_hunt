@@ -1,5 +1,5 @@
 class TreasureHuntController < ApplicationController
-  before_action :authenticate, only: [:create]
+  # before_action :authenticate, only: [:create]
 
   def create
     user_new_location = Position.new(params)

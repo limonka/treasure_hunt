@@ -30,7 +30,7 @@ class Position
   def check_if_treasure_found
     if distance_to_treasure < 5
       user.update_attribute(:found_treasure, true)
-      # TreasureFoundMailer.treasure_found(user).deliver
+      TreasureFoundMailer.treasure_found(user).deliver
     end
   end
 end
