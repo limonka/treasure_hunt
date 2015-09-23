@@ -15,8 +15,20 @@ class PositionTest < ActiveSupport::TestCase
     assert @position.errors[:latitude].present?
   end
 
+  test 'position is invalid with wrong latitude' do
+    @position.latitude = -1000
+    assert @position.invalid?
+    assert @position.errors[:latitude].present?
+  end
+
   test 'position is invalid without longitude' do
     @position.longitude = nil
+    assert @position.invalid?
+    assert @position.errors[:longitude].present?
+  end
+
+  test 'position is invalid with wrong longitude' do
+    @position.longitude = -1000
     assert @position.invalid?
     assert @position.errors[:longitude].present?
   end

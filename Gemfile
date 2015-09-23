@@ -15,6 +15,7 @@ gem 'gmaps4rails'
 
 gem 'rails_12factor', group: :production
 
-gem 'spring',        group: :development
-
-gem 'factory_girl',  group: :test
+group :test do
+  gem 'factory_girl'
+  gem 'faker'
+end
