@@ -10,7 +10,7 @@ class Position
   after_create :check_if_treasure_found
 
   def self.treasure_hunted
-    self.collection.distinct('email', { is_treasure: true})
+    self.collection.distinct(:email, { is_treasure: true })
   end
 
   #TODO: add format validations to lat, lng
@@ -26,6 +26,8 @@ class Position
   def distance_to_treasure
     Geocoder::Calculations.distance_between(current_position, Treasure.current_position) * 1000
   end
+
+  private
 
   def check_if_treasure_found
     if distance_to_treasure < 5
