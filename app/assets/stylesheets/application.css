@@ -13,3 +13,9 @@
  *= require_tree .
  *= require_self
  */
+
+ .user-position-map {
+  min-width: 100%;
+  width: 800px;
+  height: 690px;
+ }
