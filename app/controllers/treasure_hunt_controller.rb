@@ -4,9 +4,9 @@ class TreasureHuntController < ApplicationController
   def create
     new_user_location = Position.new(params)
     if new_user_location.save
-      render json: { status: 'ok', distance: new_user_location.distance_to_treasure }
+      render json: { status: 'ok', distance: new_user_location.distance_to_treasure }, status: 200
     else
-      render json: { status: 'error', distance: -1, error: new_user_location.errors.inspect }
+      render json: { status: 'error', distance: -1, error: new_user_location.errors.inspect }, status: 422
     end
   end
 

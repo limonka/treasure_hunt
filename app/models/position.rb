@@ -3,7 +3,7 @@ class Position
 
   key :latitude, Float, required: true
   key :longitude, Float, required: true
-  key :email, String, required: true, unique: true, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  key :email, String, required: true, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   key :is_treasure, Boolean, default: false, required: true
   timestamps!
 

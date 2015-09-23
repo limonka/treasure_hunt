@@ -27,13 +27,6 @@ class PositionTest < ActiveSupport::TestCase
     assert @position.errors[:email].present?
   end
 
-  test 'position is invalid if email is not uniq' do
-    other_position = create(:position)
-    @position.email = other_position.email
-    assert @position.invalid?
-    assert @position.errors[:email].present?
-  end
-
   test 'position is invalid if wrong email email' do
     @position.email = 'test'
     assert @position.invalid?
