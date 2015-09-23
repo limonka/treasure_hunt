@@ -3,13 +3,9 @@ FactoryGirl.define do
   sequence(:latitude) { |n| 50.051227 * n  }
   sequence(:longitude) { |n| 19.945704 * n }
 
-  factory :user do
-    email { generate(:email) }
-  end
-
   factory :position do
     latitude { generate(:latitude) }
     longitude { generate(:longitude) }
-    user
+    email { generate(:email) }
   end
 end

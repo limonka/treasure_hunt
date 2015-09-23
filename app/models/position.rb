@@ -3,13 +3,17 @@ class Position
 
   key :latitude, Float, required: true
   key :longitude, Float, required: true
+  key :email, String, required: true, unique: true, format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  key :is_treasure, Boolean, default: false, required: true
   timestamps!
-
-  belongs_to :user
 
   after_create :check_if_treasure_found
 
-  #TODO: add format validations to lat, long
+  def self.treasure_hunted
+    self.collection.distinct('email', { is_treasure: true})
+  end
+
+  #TODO: add format validations to lat, lng
 
   def current_position=(position)
     self.latitude, self.longitude = position.map(&:to_f)
@@ -19,18 +23,14 @@ class Position
     [latitude, longitude]
   end
 
-  def email=(email)
-    self.user = User.first(email: email) || User.create(email: email)
-  end
-
   def distance_to_treasure
     Geocoder::Calculations.distance_between(current_position, Treasure.current_position) * 1000
   end
 
   def check_if_treasure_found
     if distance_to_treasure < 5
-      user.update_attribute(:found_treasure, true)
-      TreasureFoundMailer.treasure_found(user).deliver
+      update_attribute(:is_treasure, true)
+      TreasureFoundMailer.treasure_found(email).deliver
     end
   end
 end

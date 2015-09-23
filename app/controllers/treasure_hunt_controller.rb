@@ -2,11 +2,11 @@ class TreasureHuntController < ApplicationController
   # before_action :authenticate, only: [:create]
 
   def create
-    user_new_location = Position.new(params)
-    if user_new_location.save
-      render json: { status: 'ok', distance: user_new_location.distance_to_treasure }
+    new_user_location = Position.new(params)
+    if new_user_location.save
+      render json: { status: 'ok', distance: new_user_location.distance_to_treasure }
     else
-      render json: { status: 'error', distance: -1, error: user_new_location.errors.inspect }
+      render json: { status: 'error', distance: -1, error: new_user_location.errors.inspect }
     end
   end
 
