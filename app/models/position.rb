@@ -35,7 +35,7 @@ class Position
   private
 
   def check_if_treasure_found
-    if distance_to_treasure < 5
+    if distance_to_treasure <= 5
       TreasureFoundMailer.treasure_found(email).deliver unless Position.email_sent_to?(email)
       update_attribute(:is_treasure, true)
     end
