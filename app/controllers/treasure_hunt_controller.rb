@@ -11,8 +11,8 @@ class TreasureHuntController < ApplicationController
   end
 
   def index
-    @positions = Position.all
-    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+    positions = Position.all
+    @hash = Gmaps4rails.build_markers(positions) do |position, marker|
       marker.lat position.latitude
       marker.lng position.longitude
     end
