@@ -34,10 +34,19 @@ class PositionTest < ActiveSupport::TestCase
   end
 
   test 'treasure_hunted returns users who found the treasure' do
-    position = create(:position, latitude: Treasure.latitude, longitude: Treasure.longitude)
-    position2 = create(:position)
+    position = create(:treasure_position)
+    @position.save
     assert Position.treasure_hunted.include?(position.email)
-    assert !Position.treasure_hunted.include?(position2.email)
+    assert !Position.treasure_hunted.include?(@position.email)
+  end
+
+  test 'email_sent_to? shoud return false if there was no email sent before' do
+    assert !Position.email_sent_to?(@position.email)
+  end
+
+  test 'email_sent_to? shoud return true if the email was sent before' do
+    position = create(:treasure_position)
+    assert Position.email_sent_to?(position.email)
   end
 
   test 'current_position=(position) should set properly lat and long' do

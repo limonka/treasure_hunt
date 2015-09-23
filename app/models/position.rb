@@ -13,6 +13,10 @@ class Position
     self.collection.distinct(:email, { is_treasure: true })
   end
 
+  def self.email_sent_to?(email)
+    where(email: email, is_treasure: true).count > 0
+  end
+
   #TODO: add format validations to lat, lng
 
   def current_position=(position)
@@ -31,8 +35,8 @@ class Position
 
   def check_if_treasure_found
     if distance_to_treasure < 5
+      TreasureFoundMailer.treasure_found(email).deliver unless Position.email_sent_to?(email)
       update_attribute(:is_treasure, true)
-      TreasureFoundMailer.treasure_found(email).deliver
     end
   end
 end
