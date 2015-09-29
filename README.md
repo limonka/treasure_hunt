@@ -25,7 +25,8 @@ Error response:
 
 #### Email Content: 
 “Hey, you’ve found a treasure, congratulations!
-You are [:nth] treasure hunter who has found the treasure.” Replace [:nth] with the actual number of treasure hunters who successfully found a treasure before + 1.”
+You are [:nth] treasure hunter who has found the treasure.” <br />
+NOTE: [:nth] is an actual number of treasure hunters who successfully found a treasure before + 1.
 
 #### Contains:
 * unit and functional tests
