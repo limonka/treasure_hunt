@@ -1,4 +1,5 @@
 class Position
+
   include MongoMapper::Document
 
   key :latitude, Float, required: true
